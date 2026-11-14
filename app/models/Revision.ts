@@ -37,9 +37,16 @@ class Revision extends ParanoidModel {
   @observable
   name: string | null;
 
-  /** Prosemirror data of the content when revision was created */
+  /**
+   * Prosemirror data of the content when revision was created. Revisions are
+   * listed without their content, so this is undefined until it is fetched.
+   *
+   * The initializer ensures the property exists before the model is made
+   * observable: MobX cannot annotate a field that is first assigned later, so
+   * components reading `data` would never re-render once it loads.
+   */
   @observable.shallow
-  data: ProsemirrorData;
+  data: ProsemirrorData = undefined!;
 
   /** The icon (or) emoji of the document when the revision was created */
   @observable
